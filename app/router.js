@@ -8,6 +8,7 @@ export default AppRouter.extend({
     routes: {
         '': 'home',
         'home': 'home',
-        'about': 'about'
+        'about': 'about',
+        'contact': 'contact'
     }
 });

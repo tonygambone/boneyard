@@ -21,7 +21,7 @@ const app = new Marionette.Application({
 
         const router = new Router();
         router.on('route', (name, path, args) => {
-            if (['home', 'about'].includes(name)) {
+            if (['home', 'about', 'contact'].includes(name)) {
                 layout.showChildView('navbarRegion', new NavbarView({ activeItem: name }));
                 layout.showChildView('pageRegion', new PageView({ page: name }));
             }
