@@ -8,8 +8,15 @@ export default Marionette.View.extend({
         this.model = window.board = new Board({
             title: "This is the dynamic board title",
             lists: [
-                { name: "List 1", cards: [] },
-                { name: "List 2", cards: [] },
+                { name: "List 1", cards: [
+                    { title: "Card 1" },
+                    { title: "Card 2" }
+                ] },
+                { name: "List 2", cards: [
+                    { title: "Card 3" },
+                    { title: "Card 4" },
+                    { title: "Card 5" }
+                ] },
                 { name: "List 3", cards: [] },
             ]
         });
