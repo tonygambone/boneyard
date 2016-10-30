@@ -11,7 +11,7 @@ export default Marionette.View.extend({
     events: {
         'click .card': function(e) {
             inlineEditHandler(e, 'span', 'input', (id, text) => {
-                const attrs = { 'title': text };
+                const attrs = { 'title': text, 'new': false };
                 this.model.set(attrs);
                 this.model.save(attrs, { patch: true });
             });
@@ -23,5 +23,10 @@ export default Marionette.View.extend({
             dt.dropEffect = 'move';
         }
     },
-    template: require('../templates/card.html')
+    template: require('../templates/card.html'),
+    onRender: function() {
+        if (this.model.get('new')) {
+            setTimeout(() => { $(this.el).find('.card span').click(); }, 100);
+        }
+    }
 });

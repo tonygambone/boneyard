@@ -31,6 +31,9 @@ export default Marionette.View.extend({
             if (card && card.get('list') !== this.model.get('id')) {
                 card.save({ list: this.model.get('id') }, { patch: true });
             }
+        },
+        'click .add-card': function(e) {
+            this.model.get('cards').add(new Card({ title: "New unsaved card", new: true, list: this.model.get('id') }));
         }
     },
     template: require('../templates/list.html'),

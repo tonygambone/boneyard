@@ -42,6 +42,40 @@ app.get('/api/boards/:id', (req, res) => {
     }
 });
 
+app.post('/api/:collection', (req, res) => {
+    const collection = req.params.collection;
+
+    if (!appData.hasOwnProperty(collection)) {
+        res.status(404).json({ error: `Collection ${collection} unknown` });
+        return;
+    }
+
+    var item;
+    if (collection === 'boards') {
+        item = {
+            id: appData.boards.reduce((p,c) => Math.max(p, c.id),0) + 1,
+            title: req.body.title
+        };
+        appData.boards.push(item);
+    } else if (collection === 'lists') {
+        item = {
+            id: appData.lists.reduce((p,c) => Math.max(p, c.id),0) + 1,
+            name: req.body.name,
+            board: req.body.board
+        };
+        appData.lists.push(item);
+    } else if (collection === 'cards') {
+        item = {
+            id: appData.cards.reduce((p,c) => Math.max(p, c.id),0) + 1,
+            title: req.body.title,
+            list: req.body.list
+        };
+        appData.cards.push(item);
+    }
+
+    return res.status(201).json(item);
+});
+
 app.patch('/api/:collection/:id', (req, res) => {
     const collection = req.params.collection;
     const itemId = Number(req.params.id);
