@@ -15,7 +15,8 @@ module.exports = {
             presets: ['es2015']
         }
       },
-      { test: require.resolve('jquery'), loader: 'expose?jQuery!expose?$' }
+      { test: require.resolve('jquery'), loader: 'expose?jQuery!expose?$' },
+      { test: /\.css$/, loader: 'style-loader!css-loader' }
     ]
   },
   output: {

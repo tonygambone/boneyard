@@ -1,3 +1,4 @@
+import style from './app.css';
 import Backbone from 'backbone';
 import $ from 'jquery';
 import _ from 'underscore';

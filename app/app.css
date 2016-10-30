@@ -1,0 +1,9 @@
+#board-title h2 { margin-top: 0; }
+h3.list-title { margin-top: 0; }
+.card {
+    padding: 8px;
+    margin: 6px 0;
+    background-color: white;
+    box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.3);
+    border-radius: 4px;
+}
