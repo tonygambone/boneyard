@@ -2,6 +2,19 @@ var webpack = require('webpack'),
     path = require('path');
 var nodeModulesPath = path.resolve(__dirname, 'node_modules');
 
+function isVendor(module) {
+  var userRequest = module.userRequest;
+
+  if (typeof userRequest !== 'string') {
+    return false;
+  }
+
+  var parts = userRequest.split('!');
+  var path = parts[parts.length - 1];
+
+  return path.indexOf('node_modules') >= 0;
+}
+
 module.exports = {
   entry: './app/main.js',
   module: {
@@ -24,6 +37,11 @@ module.exports = {
     filename: 'bundle.js'
   },
   plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      filename: 'vendor.js',
+      minChunks: isVendor
+    }),
     new webpack.ProvidePlugin({
       _: 'underscore',
       $: 'jquery',
