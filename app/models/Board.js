@@ -1,11 +1,17 @@
 import Backbone from 'backbone';
+import Relational from 'backbone-relational';
+import List from './List';
 import ListCollection from '../collections/ListCollection';
 
-export default Backbone.Model.extend({
-    set: function(attributes, options) {
-        if (attributes.lists !== undefined && !(attributes.lists instanceof ListCollection)) {
-            attributes.lists = new ListCollection(attributes.lists);
+export default Backbone.RelationalModel.extend({
+    relations: [{
+        type: Backbone.HasMany,
+        key: 'lists',
+        relatedModel: List,
+        collectionType: ListCollection,
+        reverseRelation: {
+            key: 'board',
+            includeInJSON: Backbone.Model.prototype.idAttribute
         }
-        return Backbone.Model.prototype.set.call(this, attributes, options);
-    }
+    }]
 });

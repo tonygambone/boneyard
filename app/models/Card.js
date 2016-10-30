@@ -1,4 +1,5 @@
 import Backbone from 'backbone';
+import Relational from 'backbone-relational';
 
-export default Backbone.Model.extend({
+export default Backbone.RelationalModel.extend({
 });
