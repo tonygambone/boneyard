@@ -1,5 +1,5 @@
 #board-title h2 { margin-top: 0; }
-h3.list-title { margin-top: 0; }
+.list-title > h3 { margin-top: 0; }
 .card {
     padding: 8px;
     margin: 6px 0;

@@ -1,5 +1,6 @@
 import Marionette from 'backbone.marionette';
 import CardCollectionView from './CardCollectionView';
+import { inlineEditHandler } from '../helpers';
 
 export default Marionette.View.extend({
     initialize: function(options) {
@@ -7,6 +8,14 @@ export default Marionette.View.extend({
     },
     modelEvents: {
         'change:name': 'render',
+    },
+    events: {
+        'click .list-title': function(e) {
+            inlineEditHandler(e, 'h3', 'input', (id, text) => {
+                this.model.set('name', text);
+                this.model.save();
+            });
+        }
     },
     template: require('../templates/list.html'),
     regions: {
