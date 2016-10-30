@@ -4,6 +4,7 @@ import List from './List';
 import ListCollection from '../collections/ListCollection';
 
 export default Backbone.RelationalModel.extend({
+    urlRoot: '/api/boards',
     relations: [{
         type: Backbone.HasMany,
         key: 'lists',
