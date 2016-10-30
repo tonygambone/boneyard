@@ -1,4 +1,5 @@
 import Marionette from 'backbone.marionette';
+import Card from '../models/Card';
 import CardCollectionView from './CardCollectionView';
 import { inlineEditHandler } from '../helpers';
 
@@ -16,6 +17,20 @@ export default Marionette.View.extend({
                 this.model.set(attrs);
                 this.model.save(attrs, { patch: true });
             });
+        },
+        'dragover': function(e) {
+            e.preventDefault();
+            const dt = e.originalEvent.dataTransfer;
+            dt.dropEffect = 'move';
+        },
+        'drop': function(e) {
+            e.preventDefault();
+            const dt = e.originalEvent.dataTransfer;
+            const cardId = dt.getData('card');
+            const card = this.model.get('board').getCard(cardId);
+            if (card) {
+                card.save({ list: this.model.get('id') }, { patch: true });
+            }
         }
     },
     template: require('../templates/list.html'),

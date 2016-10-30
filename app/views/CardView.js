@@ -15,6 +15,12 @@ export default Marionette.View.extend({
                 this.model.set(attrs);
                 this.model.save(attrs, { patch: true });
             });
+        },
+        'dragstart .card': function(e) {
+            const dt = e.originalEvent.dataTransfer;
+            dt.setData('card', this.model.get('id'));
+            dt.setData('list', this.model.get('list').get('id'));
+            dt.dropEffect = 'move';
         }
     },
     template: require('../templates/card.html')

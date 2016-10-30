@@ -59,14 +59,13 @@ app.patch('/api/:collection/:id', (req, res) => {
     }
 
     if (collection === 'boards') {
-        console.log('New board title:', req.body.title);
-        item.title = req.body.title;
+        item.title = req.body.title || item.title;
     } else if (collection === 'lists') {
-        console.log('New list name:', req.body.name);
-        item.name = req.body.name;
+        item.name = req.body.name || item.name;
+        item.board = req.body.board || item.board;
     } else if (collection === 'cards') {
-        console.log('New card title:', req.body.title);
-        item.title = req.body.title;
+        item.title = req.body.title || item.title;
+        item.list = req.body.list || item.list;
     }
 
     return res.json(item);
