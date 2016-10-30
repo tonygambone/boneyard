@@ -28,7 +28,7 @@ export default Marionette.View.extend({
             const dt = e.originalEvent.dataTransfer;
             const cardId = dt.getData('card');
             const card = this.model.get('board').getCard(cardId);
-            if (card) {
+            if (card && card.get('list') !== this.model.get('id')) {
                 card.save({ list: this.model.get('id') }, { patch: true });
             }
         }
