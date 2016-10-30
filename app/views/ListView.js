@@ -12,8 +12,9 @@ export default Marionette.View.extend({
     events: {
         'click .list-title': function(e) {
             inlineEditHandler(e, 'h3', 'input', (id, text) => {
-                this.model.set('name', text);
-                this.model.save();
+                const attrs = { 'name': text };
+                this.model.set(attrs);
+                this.model.save(attrs, { patch: true });
             });
         }
     },

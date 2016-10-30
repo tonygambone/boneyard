@@ -11,8 +11,9 @@ export default Marionette.View.extend({
     events: {
         'click .card': function(e) {
             inlineEditHandler(e, 'span', 'input', (id, text) => {
-                this.model.set('title', text);
-                this.model.save();
+                const attrs = { 'title': text };
+                this.model.set(attrs);
+                this.model.save(attrs, { patch: true });
             });
         }
     },

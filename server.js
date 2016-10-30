@@ -27,12 +27,14 @@ const appData = {
 
 app.get('/api/boards/:id', (req, res) => {
     const boardId = Number(req.params.id);
-    const board = appData.boards.filter((b) => b.id === boardId)[0];
+    var board = appData.boards.filter((b) => b.id === boardId)[0];
     if (board) {
+        board = { id: board.id, title: board.title }; // create clone
         board.lists = appData.lists.filter((l) => l.board === boardId)
             .map((l) => {
-                l.cards = appData.cards.filter((c) => c.list === l.id);
-                return l;
+                var list = { id: l.id, board: l.board, name: l.name }; // create clone
+                list.cards = appData.cards.filter((c) => c.list === l.id);
+                return list;
             });
         return res.json(board);
     } else {
@@ -40,7 +42,7 @@ app.get('/api/boards/:id', (req, res) => {
     }
 });
 
-app.put('/api/:collection/:id', (req, res) => {
+app.patch('/api/:collection/:id', (req, res) => {
     const collection = req.params.collection;
     const itemId = Number(req.params.id);
 

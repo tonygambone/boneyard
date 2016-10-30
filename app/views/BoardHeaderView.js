@@ -11,8 +11,9 @@ export default Marionette.View.extend({
     events: {
         'click #board-title': function(e) {
             inlineEditHandler(e, 'h2', 'input', (id, text) => {
-                this.model.set('title', text);
-                this.model.save();
+                const attrs = { 'title': text };
+                this.model.set(attrs);
+                this.model.save(attrs, { patch: true });
             });
         }
     },
