@@ -9,8 +9,8 @@
 }
 .add-list { color: #889988; cursor: pointer; }
 .add-card { color: #889988; cursor: pointer; display: none; }
-.well:hover .add-card { display: initial; }
-.remove-card { color: #998888; cursor: pointer; display: none; }
+.well:hover .add-card, .well:hover .remove-list { display: initial; }
+.remove-card, .remove-list { color: #998888; cursor: pointer; display: none; }
 .card:hover .remove-card { display: initial; }
 .inline-editor {
     display: none;

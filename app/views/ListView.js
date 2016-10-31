@@ -34,6 +34,9 @@ export default Marionette.View.extend({
         },
         'click .add-card': function(e) {
             this.model.get('cards').add(new Card({ title: "New unsaved card", new: true, list: this.model.get('id') }));
+        },
+        'click .remove-list': function(e) {
+            this.model.destroy();
         }
     },
     template: require('../templates/list.html'),
