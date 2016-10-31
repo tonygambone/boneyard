@@ -8,3 +8,14 @@
     border-radius: 4px;
 }
 .add-card { color: #889988; cursor: pointer; }
+.inline-editor {
+    display: none;
+    width: 85%;
+}
+.list-title .inline-editor {
+    font-size: 20px;
+}
+#board-title .inline-editor {
+    font-size: 26px;
+    width: 100%;
+}
