@@ -42,12 +42,34 @@ app.get('/api/boards/:id', (req, res) => {
     }
 });
 
+app.get('/api/lists/:id', (req, res) => {
+    const listId = Number(req.params.id);
+    var list = appData.lists.filter((l) => l.id === listId)[0];
+    if (list) {
+        list = { id: list.id, name: list.name, board: list.board }; // create clone
+        list.cards = appData.cards.filter((c) => c.list === list.id);
+        return res.json(list);
+    } else {
+        res.status(404).json({ error: `Lists item ${listId} not found` });
+    }
+});
+
+app.get('/api/cards/:id', (req, res) => {
+    const cardId = Number(req.params.id);
+    var card = appData.cards.filter((c) => c.id === cardId)[0];
+    if (card) {
+        card = { id: card.id, title: card.title, list: card.list }; // create clone
+        return res.json(card);
+    } else {
+        res.status(404).json({ error: `Cards item ${cardId} not found` });
+    }
+});
+
 app.post('/api/:collection', (req, res) => {
     const collection = req.params.collection;
 
     if (!appData.hasOwnProperty(collection)) {
-        res.status(404).json({ error: `Collection ${collection} unknown` });
-        return;
+        return res.status(404).json({ error: `Collection ${collection} unknown` });
     }
 
     var item;
@@ -81,15 +103,13 @@ app.patch('/api/:collection/:id', (req, res) => {
     const itemId = Number(req.params.id);
 
     if (!appData.hasOwnProperty(collection)) {
-        res.status(404).json({ error: `Collection ${collection} unknown` });
-        return;
+        return res.status(404).json({ error: `Collection ${collection} unknown` });
     }
 
     const item = appData[collection].filter((x) => x.id === itemId)[0];
 
     if (!item) {
-        res.status(404).json({ error: `${collection} item ${itemId} unknown` });
-        return;
+        return res.status(404).json({ error: `${collection} item ${itemId} unknown` });
     }
 
     if (collection === 'boards') {
@@ -103,6 +123,24 @@ app.patch('/api/:collection/:id', (req, res) => {
     }
 
     return res.json(item);
+});
+
+app.delete('/api/:collection/:id', (req, res) => {
+    const collection = req.params.collection;
+    const itemId = Number(req.params.id);
+
+    if (!appData.hasOwnProperty(collection)) {
+        return res.status(404).json({ error: `Collection ${collection} unknown` });
+    }
+
+    for (var i = 0; i < appData[collection].length; i++) {
+        if (appData[collection][i].id === itemId) {
+            appData[collection].splice(i,1);
+            return res.status(204).send();
+        }
+    }
+
+    return res.status(404).json({ error: `${collection} item ${itemId} unknown` });
 });
 
 app.listen(3000, function () {

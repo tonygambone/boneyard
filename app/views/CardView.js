@@ -21,12 +21,15 @@ export default Marionette.View.extend({
             dt.setData('card', this.model.get('id'));
             dt.setData('list', this.model.get('list').get('id'));
             dt.dropEffect = 'move';
+        },
+        'click .remove-card': function(e) {
+            this.model.destroy();
         }
     },
     template: require('../templates/card.html'),
     onRender: function() {
         if (this.model.get('new')) {
-            setTimeout(() => { $(this.el).find('.card span').click(); }, 100);
+            setTimeout(() => { $(this.el).find('.card .card-title').click(); }, 100);
         }
     }
 });

@@ -1,4 +1,5 @@
 <div class="card" draggable="true">
-    <span><%- obj.title %></span>
+    <span class="pull-right glyphicon glyphicon-remove remove-card" title="Delete card"></span>
+    <span class="card-title"><%- obj.title %></span>
     <input type="text" value="<%- obj.title %>" class="inline-editor" data-id="<%- obj.id %>">
 </div>
