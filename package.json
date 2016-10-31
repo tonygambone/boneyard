@@ -7,6 +7,7 @@
     "url": "https://gitlab.com/tonygambone/boneyard.git"
   },
   "scripts": {
+    "start": "node --harmony_array_includes server.js",
     "build": "webpack --config webpack.config.js"
   },
   "dependencies": {

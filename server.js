@@ -133,14 +133,20 @@ app.delete('/api/:collection/:id', (req, res) => {
         return res.status(404).json({ error: `Collection ${collection} unknown` });
     }
 
-    for (var i = 0; i < appData[collection].length; i++) {
-        if (appData[collection][i].id === itemId) {
-            appData[collection].splice(i,1);
-            return res.status(204).send();
-        }
+    if (collection === 'boards') {
+        const listsToDelete = appData.lists.filter((l) => l.board === itemId)
+            .map((l) => l.id);
+        appData.cards = appData.cards.filter((c) => !listsToDelete.includes(c.list));
+        appData.lists = appData.lists.filter((l) => l.board !== itemId);
+        appData.boards = appData.boards.filter((b) => b.id !== itemId);
+    } else if (collection === 'lists') {
+        appData.cards = appData.cards.filter((c) => c.list !== itemId);
+        appData.lists = appData.lists.filter((l) => l.id !== itemId);
+    } else if (collection === 'cards') {
+        appData.cards = appData.cards.filter((c) => c.id !== itemId);
     }
 
-    return res.status(404).json({ error: `${collection} item ${itemId} unknown` });
+    return res.status(204).send();
 });
 
 app.listen(3000, function () {

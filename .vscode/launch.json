@@ -12,7 +12,7 @@
             "preLaunchTask": null,
             "runtimeExecutable": null,
             "runtimeArgs": [
-                "--nolazy"
+                "--nolazy --harmony_array_includes"
             ],
             "env": {
                 "NODE_ENV": "development"
