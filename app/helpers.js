@@ -12,6 +12,10 @@ export const inlineEditHandler =
             .on('keyup', function(e) {
                 if (e.which === 13) { // enter
                     var input = $(this);
+                    // go ahead and update the UI even though we will probably re-render
+                    // in case it is the same text which will not trigger a change
+                    input.hide().off('keyup').siblings(textSelector)
+                        .text(input.val()).show();
                     if (callback && typeof callback === 'function') {
                         callback(input.data('id'), input.val());
                     }
