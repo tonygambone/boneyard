@@ -13,7 +13,7 @@ export default Marionette.View.extend({
     events: {
         'click .list-title': function(e) {
             inlineEditHandler(e, 'h3', 'input', (id, text) => {
-                const attrs = { 'name': text };
+                const attrs = { 'name': text, 'new': false };
                 this.model.set(attrs);
                 this.model.save(attrs, { patch: true });
             });
@@ -42,5 +42,8 @@ export default Marionette.View.extend({
     },
     onRender: function() {
         this.showChildView('cardRegion', new CardCollectionView({ collection: this.model.get('cards') }));
+        if (this.model.get('new')) {
+            setTimeout(() => { $(this.el).find('.list-title h3').click(); }, 100);
+        }
     }
 });

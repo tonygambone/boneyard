@@ -1,5 +1,6 @@
 import Marionette from 'backbone.marionette';
 import { inlineEditHandler } from '../helpers';
+import List from '../models/List';
 
 export default Marionette.View.extend({
     initialize: function(options) {
@@ -15,6 +16,9 @@ export default Marionette.View.extend({
                 this.model.set(attrs);
                 this.model.save(attrs, { patch: true });
             });
+        },
+        'click .add-list': function(e) {
+            this.model.get('lists').add(new List({ name: "New unsaved list", board: this.model.get('id'), new: true }));
         }
     },
     template: require('../templates/boardHeader.html')
