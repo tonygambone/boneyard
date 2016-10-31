@@ -36,7 +36,17 @@ export default Marionette.View.extend({
             this.model.get('cards').add(new Card({ title: "New unsaved card", new: true, list: this.model.get('id') }));
         },
         'click .remove-list': function(e) {
+            $(e.target).popover({
+                content: 'Are you sure? <button class="btn btn-sm btn-danger delete-list">Yep</button> <button class="btn btn-sm cancel-delete-list">Nope</button>',
+                html: true,
+                placement: 'auto bottom'
+            }).popover('show');
+        },
+        'click .delete-list': function(e) {
             this.model.destroy();
+        },
+        'click .cancel-delete-list': function(e) {
+            $(this.el).find('.remove-list').popover('destroy');
         }
     },
     template: require('../templates/list.html'),

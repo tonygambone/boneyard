@@ -10,7 +10,7 @@ export default Marionette.View.extend({
     },
     events: {
         'click .card': function(e) {
-            inlineEditHandler(e, 'span', 'input', (id, text) => {
+            inlineEditHandler(e, '.card-title', 'input', (id, text) => {
                 const attrs = { 'title': text, 'new': false };
                 this.model.set(attrs);
                 this.model.save(attrs, { patch: true });
@@ -23,7 +23,17 @@ export default Marionette.View.extend({
             dt.dropEffect = 'move';
         },
         'click .remove-card': function(e) {
+            $(e.target).popover({
+                content: 'Are you sure? <button class="btn btn-sm btn-danger delete-card">Yep</button> <button class="btn btn-sm cancel-delete-card">Nope</button>',
+                html: true,
+                placement: 'auto bottom'
+            }).popover('show');
+        },
+        'click .delete-card': function(e) {
             this.model.destroy();
+        },
+        'click .cancel-delete-card': function(e) {
+            $(this.el).find('.remove-card').popover('destroy');
         }
     },
     template: require('../templates/card.html'),
