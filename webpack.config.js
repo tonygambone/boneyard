@@ -2,6 +2,8 @@ var webpack = require('webpack'),
     path = require('path');
 var nodeModulesPath = path.resolve(__dirname, 'node_modules');
 
+// external deps should go in vendor.js instead of bundle.js
+// this determines whether the source file is external or not
 function isVendor(module) {
   var userRequest = module.userRequest;
 
@@ -9,6 +11,7 @@ function isVendor(module) {
     return false;
   }
 
+  // handle paths like ... node_modules/some-loader.js!app.css
   var parts = userRequest.split('!');
   var path = parts[parts.length - 1];
 
@@ -28,15 +31,19 @@ module.exports = {
             presets: ['es2015']
         }
       },
+      // make jQuery available to the window object, since we are not
+      // bundling bootstrap
       { test: require.resolve('jquery'), loader: 'expose?jQuery!expose?$' },
       { test: /\.css$/, loader: 'style-loader!css-loader' }
     ]
   },
   output: {
+    // builds go into the public directory which is the app root
     path: __dirname + '/public/assets/js',
     filename: 'bundle.js'
   },
   plugins: [
+    // if isVendor is true, then put the output in vendor.js
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       filename: 'vendor.js',

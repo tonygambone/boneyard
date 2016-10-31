@@ -1,3 +1,9 @@
+
+/*
+ * This script runs the boneyard server, which is built with express.js.
+ * It serves the static resources plus a REST API for the data.
+ */
+
 const
     express = require('express'),
     bodyParser = require('body-parser'),
@@ -5,10 +11,14 @@ const
     app = express();
 
 app.use(logger('tiny'));
+// the project's public/ directory is the app root
 app.use(express.static('public'));
+// serve bootstrap from node_modules directly
 app.use('/bootstrap', express.static('node_modules/bootstrap/dist'));
 app.use('/api', bodyParser.json());
 
+// the data source used by the API
+// this is not saved anywhere so it only lives as long as the server process
 const appData = {
     boards: [
         { id: 1, title: "Boneyard testing board" }
@@ -27,6 +37,9 @@ const appData = {
     ]
 };
 
+// GETs return the full hierarchy at the requested level and below
+
+// get a board (the UI only supports one board) plus its lists and their cards
 app.get('/api/boards/:id', (req, res) => {
     const boardId = Number(req.params.id);
     var board = appData.boards.filter((b) => b.id === boardId)[0];
@@ -44,6 +57,7 @@ app.get('/api/boards/:id', (req, res) => {
     }
 });
 
+// get a list and its cards
 app.get('/api/lists/:id', (req, res) => {
     const listId = Number(req.params.id);
     var list = appData.lists.filter((l) => l.id === listId)[0];
@@ -56,6 +70,7 @@ app.get('/api/lists/:id', (req, res) => {
     }
 });
 
+// get a card
 app.get('/api/cards/:id', (req, res) => {
     const cardId = Number(req.params.id);
     var card = appData.cards.filter((c) => c.id === cardId)[0];
@@ -67,6 +82,7 @@ app.get('/api/cards/:id', (req, res) => {
     }
 });
 
+// create a new item
 app.post('/api/:collection', (req, res) => {
     const collection = req.params.collection;
 
@@ -100,6 +116,7 @@ app.post('/api/:collection', (req, res) => {
     return res.status(201).json(item);
 });
 
+// update an item
 app.patch('/api/:collection/:id', (req, res) => {
     const collection = req.params.collection;
     const itemId = Number(req.params.id);
@@ -127,6 +144,7 @@ app.patch('/api/:collection/:id', (req, res) => {
     return res.json(item);
 });
 
+// delete an item and all of its child records
 app.delete('/api/:collection/:id', (req, res) => {
     const collection = req.params.collection;
     const itemId = Number(req.params.id);
@@ -136,15 +154,18 @@ app.delete('/api/:collection/:id', (req, res) => {
     }
 
     if (collection === 'boards') {
+        // delete the board plus its lists and their cards
         const listsToDelete = appData.lists.filter((l) => l.board === itemId)
             .map((l) => l.id);
         appData.cards = appData.cards.filter((c) => !listsToDelete.includes(c.list));
         appData.lists = appData.lists.filter((l) => l.board !== itemId);
         appData.boards = appData.boards.filter((b) => b.id !== itemId);
     } else if (collection === 'lists') {
+        // delete a list and its cards
         appData.cards = appData.cards.filter((c) => c.list !== itemId);
         appData.lists = appData.lists.filter((l) => l.id !== itemId);
     } else if (collection === 'cards') {
+        // delete a card
         appData.cards = appData.cards.filter((c) => c.id !== itemId);
     }
 

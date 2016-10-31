@@ -4,6 +4,8 @@ import List from './List';
 import ListCollection from '../collections/ListCollection';
 import _ from 'underscore';
 
+// Backbone model of a board
+
 export default Backbone.RelationalModel.extend({
     urlRoot: '/api/boards',
     relations: [{
@@ -17,6 +19,7 @@ export default Backbone.RelationalModel.extend({
         }
     }],
 
+    // get a single card model by ID from within this board
     getCard: function(id) {
         return this.get('lists').models.map((l) => l.get('cards').get(id)).reduce((p,c) => p || c);
     }

@@ -3,6 +3,9 @@ import BoardHeaderView from './BoardHeaderView';
 import BoardContentView from './BoardContentView';
 import Board from '../models/Board';
 
+// Marionette view for the main app page. Lays out the
+// child views for app content.
+
 export default Marionette.View.extend({
     initialize: function(options) {
         this.model = options.model;

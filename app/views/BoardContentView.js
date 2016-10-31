@@ -1,6 +1,9 @@
 import Marionette from 'backbone.marionette';
 import ListCollectionView from './ListCollectionView';
 
+// Marionette view for the board content area. Delegates to
+// the list collection view.
+
 export default Marionette.View.extend({
     initialize: function(options) {
         this.model = options.model;

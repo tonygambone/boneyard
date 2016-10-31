@@ -2,6 +2,9 @@ import Marionette from 'backbone.marionette';
 import { inlineEditHandler } from '../helpers';
 import List from '../models/List';
 
+// Marionette view for the board header. Renders the board title
+// area and controls for the entire board.  Handles list add functions.
+
 export default Marionette.View.extend({
     initialize: function(options) {
         this.model = options.model;
