@@ -8,6 +8,7 @@ import NavbarView from './views/NavbarView';
 import PageView from './views/PageView';
 import HomeView from './views/HomeView';
 import Board from './models/Board';
+import './polyfills.js';
 
 const app = new Marionette.Application({
     onStart: () => {

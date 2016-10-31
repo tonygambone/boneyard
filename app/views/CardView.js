@@ -18,8 +18,8 @@ export default Marionette.View.extend({
         },
         'dragstart .card': function(e) {
             const dt = e.originalEvent.dataTransfer;
-            dt.setData('card', this.model.get('id'));
-            dt.setData('list', this.model.get('list').get('id'));
+            // must be 'text' (IE11)
+            dt.setData('text', String(this.model.get('id')));
             dt.dropEffect = 'move';
         },
         'click .remove-card': function(e) {
