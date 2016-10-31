@@ -1,8 +1,10 @@
 const
     express = require('express'),
     bodyParser = require('body-parser'),
+    logger = require('morgan'),
     app = express();
 
+app.use(logger('tiny'));
 app.use(express.static('public'));
 app.use('/bootstrap', express.static('node_modules/bootstrap/dist'));
 app.use('/api', bodyParser.json());
@@ -149,6 +151,7 @@ app.delete('/api/:collection/:id', (req, res) => {
     return res.status(204).send();
 });
 
-app.listen(3000, function () {
-    console.log('Example app listening on port 3000');
+const port = process.env.PORT || 3000
+app.listen(port, function () {
+    console.log('Example app listening on port', port);
 });

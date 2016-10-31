@@ -2,9 +2,12 @@
   "name": "boneyard",
   "version": "1.0.0",
   "license": "MIT",
+  "engines": {
+    "node": "4.3.1"
+  },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/tonygambone/boneyard.git"
+    "url": "https://github.com/tonygambone/boneyard.git"
   },
   "scripts": {
     "start": "node --harmony_array_includes server.js",
@@ -20,6 +23,7 @@
     "bootstrap": "^3.3.7",
     "express": "^4.14.0",
     "jquery": "^3.1.1",
+    "morgan": "^1.7.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
