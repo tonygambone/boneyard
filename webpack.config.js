@@ -34,7 +34,9 @@ module.exports = {
       // make jQuery available to the window object, since we are not
       // bundling bootstrap
       { test: require.resolve('jquery'), loader: 'expose?jQuery!expose?$' },
-      { test: /\.css$/, loader: 'style-loader!css-loader' }
+      { test: /\.css$/, loader: 'style-loader!css-loader' },
+      // require Markdown files right into templates as HTML ¯\_(ツ)_/¯
+      { test: /\.md$/, loader: 'html!markdown-loader' }
     ]
   },
   output: {
